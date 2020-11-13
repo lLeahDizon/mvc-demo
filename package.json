@@ -1,5 +1,11 @@
 {
+  "name": "mvc-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:lLeahDizon/mvc-demo.git",
+  "author": "Lemon <516330797@qq.com>",
+  "license": "MIT",
   "dependencies": {
-    "global.css": "^1.1.0"
+    "jquery": "^3.5.1"
   }
 }
