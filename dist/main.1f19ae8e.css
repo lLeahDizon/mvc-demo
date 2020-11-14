@@ -17,5 +17,25 @@ ul {
   list-style: none;
 }
 
+body {
+  overflow: hidden;
+}
+
+body > .page {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+body > .page > section {
+  width: 50vw;
+  height: 50vh;
+  border: 1px solid gray;
+}
+
+#app1 {
+  width: 50vw;
+  height: 50vh;
+}
+
 
 /*# sourceMappingURL=/main.1f19ae8e.css.map */
