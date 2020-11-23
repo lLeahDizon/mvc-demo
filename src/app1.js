@@ -1,10 +1,21 @@
 import "./app1.css";
 import $ from "jquery";
 
+const eventBus = $(window)
 const m = {
   data: {
     n: parseInt(localStorage.getItem("n"))
-  }
+  },
+  update(data) {
+    Object.assign(m.data, data)
+    eventBus.trigger('m:updated')
+  },
+  create() {
+  },
+  delete() {
+  },
+  get() {
+  },
 }
 
 const v = {
@@ -39,6 +50,7 @@ const c = {
     v.init(container)
     v.render(m.data.n)// view = render(data)
     c.autoBindEvents()
+    eventBus.on('m:updated', () => v.render(m.data.n))
   },
   events: {
     'click #add1': 'add',
@@ -47,16 +59,16 @@ const c = {
     'click #divide2': 'div',
   },
   add() {
-    m.data.n += 1
+    m.update({n: m.data.n + 1})
   },
   minus() {
-    m.data.n -= 1
+    m.update({n: m.data.n - 1})
   },
   mul() {
-    m.data.n *= 2
+    m.update({n: m.data.n * 2})
   },
   div() {
-    m.data.n /= 2
+    m.update({n: m.data.n / 2})
   },
   autoBindEvents() {
     for (let key in c.events) {
@@ -65,7 +77,6 @@ const c = {
       const part1 = key.slice(0, spaceIndex)
       const part2 = key.slice(spaceIndex + 1)
       v.el.on(part1, part2, value)
-      console.log(part1, part2, value);
     }
   }
 }

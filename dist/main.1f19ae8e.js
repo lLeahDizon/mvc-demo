@@ -11299,10 +11299,18 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var eventBus = (0, _jquery.default)(window);
 var m = {
   data: {
     n: parseInt(localStorage.getItem("n"))
-  }
+  },
+  update: function update(data) {
+    Object.assign(m.data, data);
+    eventBus.trigger('m:updated');
+  },
+  create: function create() {},
+  delete: function _delete() {},
+  get: function get() {}
 };
 var v = {
   el: null,
@@ -11324,6 +11332,9 @@ var c = {
     v.render(m.data.n); // view = render(data)
 
     c.autoBindEvents();
+    eventBus.on('m:updated', function () {
+      return v.render(m.data.n);
+    });
   },
   events: {
     'click #add1': 'add',
@@ -11332,16 +11343,24 @@ var c = {
     'click #divide2': 'div'
   },
   add: function add() {
-    m.data.n += 1;
+    m.update({
+      n: m.data.n + 1
+    });
   },
   minus: function minus() {
-    m.data.n -= 1;
+    m.update({
+      n: m.data.n - 1
+    });
   },
   mul: function mul() {
-    m.data.n *= 2;
+    m.update({
+      n: m.data.n * 2
+    });
   },
   div: function div() {
-    m.data.n /= 2;
+    m.update({
+      n: m.data.n / 2
+    });
   },
   autoBindEvents: function autoBindEvents() {
     for (var key in c.events) {
@@ -11350,7 +11369,6 @@ var c = {
       var part1 = key.slice(0, spaceIndex);
       var part2 = key.slice(spaceIndex + 1);
       v.el.on(part1, part2, value);
-      console.log(part1, part2, value);
     }
   }
 };
@@ -11481,7 +11499,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3600" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "6530" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
