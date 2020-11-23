@@ -4,7 +4,7 @@ import $ from "jquery";
 const eventBus = $(window)
 const m = {
   data: {
-    n: parseInt(localStorage.getItem("n"))
+    n: parseInt(localStorage.getItem("n")) || 100
   },
   update(data) {
     Object.assign(m.data, data)
