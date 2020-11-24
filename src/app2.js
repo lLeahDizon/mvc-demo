@@ -1,26 +1,21 @@
 import "./app2.css";
 import $ from "jquery";
+import Model from "./base/Model";
 
 const eventBus = $(window)
 
 const localKey = "app2.index";
 
-const m = {
+const m = new Model({
   data: {
     index: parseInt(localStorage.getItem(localKey)) || 0,
   },
-  update(data) {
+  update: function (data) {
     Object.assign(m.data, data)
     eventBus.trigger('m:updated')
     localStorage.setItem('index', `${m.data.index}`)
   },
-  create() {
-  },
-  delete() {
-  },
-  get() {
-  },
-}
+})
 
 const v = {
   el: null,
