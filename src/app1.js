@@ -2,9 +2,17 @@ import "./app1.css";
 import Vue from "vue";
 
 const init = (el) => {
+  const m = {
+    get() {
+      return parseFloat(localStorage.getItem("n"))
+    },
+    set(n) {
+      localStorage.setItem('n', n)
+    },
+  }
   new Vue({
     el: el,
-    data: {n: parseFloat(localStorage.getItem("n"))},
+    data: {n: m.get()},
     methods: {
       add() {
         this.n += 1
@@ -21,7 +29,7 @@ const init = (el) => {
     },
     watch: {
       n: function () {
-        localStorage.setItem('n', this.n)
+        m.set(this.n)
       }
     },
     template: `
