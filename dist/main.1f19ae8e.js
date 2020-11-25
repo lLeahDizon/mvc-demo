@@ -11350,96 +11350,7 @@ var Model = /*#__PURE__*/function () {
 
 var _default = Model;
 exports.default = _default;
-},{}],"app1.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-require("./app1.css");
-
-var _jquery = _interopRequireDefault(require("jquery"));
-
-var _Model = _interopRequireDefault(require("./base/Model"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var eventBus = (0, _jquery.default)(window);
-var m = new _Model.default({
-  data: {
-    n: parseInt(localStorage.getItem("n")) || 100
-  },
-  update: function update(data) {
-    Object.assign(m.data, data);
-    eventBus.trigger('m:updated');
-    localStorage.setItem('n', "".concat(m.data.n));
-  }
-});
-var view = {
-  el: null,
-  html: "\n  <div>\n    <div class=\"output\">\n      <div id=\"number\">{{n}}</div>\n    </div>\n    <div class=\"actions\">\n      <button id=\"add1\">+1</button>\n      <button id=\"minus1\">-1</button>\n      <button id=\"mul2\">*2</button>\n      <button id=\"divide2\">\xF72</button>\n    </div>\n  </div>\n",
-  init: function init(container) {
-    view.el = (0, _jquery.default)(container);
-    view.render(m.data.n); // view = render(data)
-
-    view.autoBindEvents();
-    eventBus.on('m:updated', function () {
-      return view.render(m.data.n);
-    });
-  },
-  render: function render(n) {
-    if (view.el.children.length !== 0) {
-      view.el.empty();
-    }
-
-    (0, _jquery.default)(view.html.replace('{{n}}', n)).appendTo(view.el);
-  },
-  events: {
-    'click #add1': 'add',
-    'click #minus1': 'minus',
-    'click #mul2': 'mul',
-    'click #divide2': 'div'
-  },
-  add: function add() {
-    m.update({
-      n: m.data.n + 1
-    });
-  },
-  minus: function minus() {
-    m.update({
-      n: m.data.n - 1
-    });
-  },
-  mul: function mul() {
-    m.update({
-      n: m.data.n * 2
-    });
-  },
-  div: function div() {
-    m.update({
-      n: m.data.n / 2
-    });
-  },
-  autoBindEvents: function autoBindEvents() {
-    for (var key in view.events) {
-      var value = view[view.events[key]];
-      var spaceIndex = key.indexOf(' ');
-      var part1 = key.slice(0, spaceIndex);
-      var part2 = key.slice(spaceIndex + 1);
-      view.el.on(part1, part2, value);
-    }
-  }
-};
-var _default = view;
-exports.default = _default;
-},{"./app1.css":"app1.css","jquery":"../node_modules/jquery/dist/jquery.js","./base/Model":"base/Model.js"}],"app2.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/css-loader.js"}],"base/View.js":[function(require,module,exports) {
+},{}],"base/View.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11491,7 +11402,84 @@ var View = /*#__PURE__*/function () {
 
 var _default = View;
 exports.default = _default;
-},{"jquery":"../node_modules/jquery/dist/jquery.js"}],"app2.js":[function(require,module,exports) {
+},{"jquery":"../node_modules/jquery/dist/jquery.js"}],"app1.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+require("./app1.css");
+
+var _jquery = _interopRequireDefault(require("jquery"));
+
+var _Model = _interopRequireDefault(require("./base/Model"));
+
+var _View = _interopRequireDefault(require("./base/View"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var eventBus = (0, _jquery.default)(window);
+var m = new _Model.default({
+  data: {
+    n: parseFloat(localStorage.getItem("n")) || 100.0
+  },
+  update: function update(data) {
+    Object.assign(m.data, data);
+    eventBus.trigger('m:updated');
+    localStorage.setItem('n', "".concat(m.data.n));
+  }
+});
+
+var init = function init(el) {
+  new _View.default({
+    el: el,
+    data: m.data,
+    eventBus: eventBus,
+    html: "\n      <div>\n        <div class=\"output\">\n          <div id=\"number\">{{n}}</div>\n        </div>\n        <div class=\"actions\">\n          <button id=\"add1\">+1</button>\n          <button id=\"minus1\">-1</button>\n          <button id=\"mul2\">*2</button>\n          <button id=\"divide2\">\xF72</button>\n        </div>\n      </div>\n    ",
+    render: function render(data) {
+      var n = data.n;
+      if (this.el.children.length !== 0) this.el.empty();
+      (0, _jquery.default)(this.html.replace('{{n}}', n)).appendTo(this.el);
+    },
+    events: {
+      'click #add1': 'add',
+      'click #minus1': 'minus',
+      'click #mul2': 'mul',
+      'click #divide2': 'div'
+    },
+    add: function add() {
+      m.update({
+        n: m.data.n + 1
+      });
+    },
+    minus: function minus() {
+      m.update({
+        n: m.data.n - 1
+      });
+    },
+    mul: function mul() {
+      m.update({
+        n: m.data.n * 2
+      });
+    },
+    div: function div() {
+      m.update({
+        n: m.data.n / 2
+      });
+    }
+  });
+};
+
+var _default = init;
+exports.default = _default;
+},{"./app1.css":"app1.css","jquery":"../node_modules/jquery/dist/jquery.js","./base/Model":"base/Model.js","./base/View":"base/View.js"}],"app2.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/css-loader.js"}],"app2.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11616,8 +11604,7 @@ require("./app4.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_app.default.init('#app1');
-
+(0, _app.default)('#app1');
 (0, _app2.default)('#app2');
 },{"./reset.css":"reset.css","./global.css":"global.css","./app1.js":"app1.js","./app2.js":"app2.js","./app3.js":"app3.js","./app4.js":"app4.js"}],"../../../../../AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -11647,7 +11634,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8757" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1483" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
