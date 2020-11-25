@@ -3,15 +3,13 @@ import $ from "jquery";
 import Model from "./base/Model";
 import View from "./base/View";
 
-const eventBus = $(window)
-
 const m = new Model({
   data: {
     n: parseFloat(localStorage.getItem("n")) || 100.0
   },
   update: function (data) {
     Object.assign(m.data, data)
-    eventBus.trigger('m:updated')
+    m.trigger('m:updated')
     localStorage.setItem('n', `${m.data.n}`)
   }
 })
@@ -20,7 +18,6 @@ const init = (el) => {
   new View({
     el: el,
     data: m.data,
-    eventBus: eventBus,
     html: `
       <div>
         <div class="output">

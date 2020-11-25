@@ -3,9 +3,13 @@
  * @Date 2020/11/24
  * @Description
  */
-class Model {
+import EventBus from "./EventBus";
+
+class Model extends EventBus {
   constructor(options) {
-    ['data', 'create', 'update', 'delete', 'get'].forEach(key => this[key] = options[key])
+    super()
+    const keys = ['data', 'create', 'update', 'delete', 'get']
+    keys.forEach(key => this[key] = options[key])
   }
 
   create() {
